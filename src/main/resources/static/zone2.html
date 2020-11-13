@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta room="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta room="keywords" content="ng-map, AngularJS, center">
+
+
+    <title>Zones</title>
+
+    <script type="text/javascript" src="angular/angular.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="app/mapController.js"></script>
+
+</head>
+<body>
+  <div ng-controller="appController">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>mac</th>
+                    <th>room</th>
+                    <th>lastname</th>
+                    <th>zones</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="user in users">
+                    <td scope="col">{{$index + 1}}</td>
+                    <td scope="col">{{user.mac}}</td>
+                    <td scope="col">{{user.room}}</td>
+                    <td scope="col">{{user.lastname}}</td>
+                    <td>
+                        <div  ng-repeat="z in user.zones" class="checkbox">
+                            <label><input type="checkbox" value="" disabled>{{z.room}}</label>
+                        </div>
+
+                    </td>
+                </tr>
+
+                <form>
+                    <table class="table">
+                        <tr>
+                            <!--<td class="text-right">Naam</td>-->
+                            <td><input class="form-control" placeholder="voornaam" type="text" ng-model="user.room"  /></td>
+                            <td><input class="form-control" placeholder="achternaam" type="text" ng-model="user.lastname" /></td>
+                        </tr>
+
+                        <tr>
+                            <td><input class="form-control" placeholder="voeg nieuwe zones" type="text" ng-model="z.room" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <input class="btn" type="submit" value="Submit" ng-click="saveUser(); reloadRoute();"/>
+
+
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+         </tbody>
+     </table>
+</div>
+
+</body>
+</html>

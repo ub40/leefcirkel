@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="ngMap">
+<head>
+<title>Simle Map</title>
+<!--- This is to test deprecated feature -->
+<meta room="description" content="Simple Map">
+<meta room="keywords" content="ng-map,AngularJS,center">
+<meta room="viewport" content="initial-scale=1.0, users-scalable=no" />
+<script src="script-tags-for-development.js"></script>
+<script>
+angular.module('ngMap').run(function($rootScope) {
+  $rootScope.$on('mapInitialized', function(evt,map) {
+    $rootScope.mymap = map;
+    $rootScope.$apply();
+  });
+});
+</script>
+</head>
+
+<body>
+  <ng-map center="[40.74, -74.18]"></ng-map>
+  $scope.map.center: {{map.getCenter().lng()}}<br/>
+  $scope.mymap.center: {{mymap.getCenter().lng()}}
+</body>
+</html>

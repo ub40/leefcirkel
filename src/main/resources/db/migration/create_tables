@@ -1,0 +1,41 @@
+CREATE TABLE client (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  imei varchar(40) NOT NULL,
+  imsi varchar(40) NOT NULL,
+  mac varchar(40) NOT NULL,
+  room varchar(100) NOT NULL,
+  lastname varchar(50) DEFAULT NULL,
+  history_id BIGINT(20) UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (imei, id, mac),
+  UNIQUE KEY UK_name (lastname),
+
+  KEY 'fk_clients_history_idx'(history_id),
+  CONSTRAINT 'fk_cli_history_id' FOREIGN KEY (history_id) REFERENCES clients_h ('id') ON DELETE CASCADE ON UPDATE CASCADE,
+
+  KEY 'fk_clients_zone_idx'('zone_id'),
+  CONSTRAINT 'fk_cli_zone_id' FOREIGN KEY ('zone_id') REFERENCES zones ('id') ON DELETE CASCADE ON UPDATE CASCADE
+
+/*  KEY 'fk_clients_geos_idx'('geo_id'),
+  CONSTRAINT 'fk_cli_zone_id' FOREIGN KEY ('geo_id') REFERENCES geo ('geo_id') ON DELETE CASCADE ON UPDATE CASCADE*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE geo (
+  geo_id bigint(20) NOT NULL AUTO_INCREMENT,
+  lng DOUBLE NOT NULL,
+  lat DOUBLE NOT NULL,
+  PRIMARY KEY (geo_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE clients_h (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  lng DOUBLE NOT NULL,
+  lat DOUBLE NOT NULL,
+  PRIMARY KEY (id )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE zones (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  room VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

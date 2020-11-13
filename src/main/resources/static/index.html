@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta room="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta room="keywords" content="ng-map, AngularJS, center">
+
+
+
+    <title>LeefCirkel 1.0</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        #map{
+            height:500px;
+            width:100%;
+        }
+
+        div[ng-controller] {
+            position: relative;
+        }
+        #panel {
+            position: absolute;
+            top: 15px;
+            right: 10%;
+            margin-right: -70px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="angular/angular.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="app/mapController.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqtjXYWVfHToJhqBpc7067eMC64_wJoTs&callback=initMap"></script>
+
+
+    <!--<link rel="stylesheet" href="css/style.css">-->
+
+</head>
+
+
+<body>
+
+<div ng-controller="mapController as vm">
+    <div id="panel">
+
+        <button type="button" ng-click="reloadRoute()" class="btn btn-light">
+            <span class="glyphicon glyphicon-repeat"></span> Reload
+        </button>
+
+        <button class="btn btn-danger" ng-click="vm.deleteMap()" type=button>
+            <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+        <label>History</label>
+        <input type="checkbox"
+                   ng-model="vm.isChecked"
+                   room="show"
+                   ng-true-value="true"
+                   ng-false-value="false"
+                   ng-change="showHistory()">
+
+    </div>
+
+    <ng-map id="map" map-type-id="ROADMAP" zoom="20" center="53.080059, 6.628383"
+    on-click="vm.placeMarker()"
+            pan-control="true"
+            map-type-control="true"
+            map-type-control-options="{style:'DROPDOWN_MENU'}"
+            zoom-control="true"
+            zoom-control-options="{style:'SMALL'}">
+
+        <marker no-watcher="true"
+                ng-repeat="p in vm.map"
+                draggable="{{draggable}}"
+                position="{{p.lat}}, {{p.lng}}"
+                title="pos: {{p}}"
+                optimized="false"
+                icon="{
+                    url:'images/profile.png',
+                    scaledSize:[100,100],
+                    origin: [20,20],
+                    anchor: [40,40]
+                }">
+        </marker>
+
+    </ng-map>
+    </div>
+
+
+    <div ng-controller="appController">
+        <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>imei</th>
+            <th>imsi</th>
+            <th>naam</th>
+            <th>achternaam</th>
+            <th>mac</th>
+            <th>zones</th>
+            <th>latitude</th>
+            <th>longitude</th>
+            <th>history</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="user in users">
+            <td scope="col">{{$index + 1}}</td>
+            <td scope="col">{{user.imei}}</td>
+            <td scope="col">{{user.imsi}}</td>
+            <td scope="col">{{user.name}}</td>
+            <td scope="col">{{user.lastname}}</td>
+            <td scope="col">{{user.mac}}</td>
+            <td scope="col">
+                <div ng-controller="zoneController as zm" class="checkbox" ng-repeat="z in user.zones">
+                    <label><input
+                            type="checkbox"
+                            ng-model="zm.zoneChecked"
+                            room="show"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                            ng-change="updateZoneStatus()"
+                            value="">{{z.room}}</label>
+                </div>
+            </td>
+            <td scope="col">{{user.history.lat}}</td>
+            <td scope="col">{{user.history.lng}}</td>
+            <td>
+                <input type="checkbox">
+            </td>
+            <td>
+                <button class="btn btn-secondary" ng-click="updateUser(user)">Edit</button>
+                <button class="btn btn-danger" ng-click="removeUser(user)">Delete</button>
+            </td>
+
+        </tr>
+
+        <form>
+            <table class="table">
+                <tr>
+                    <!--<td class="text-right">Naam</td>-->
+                    <td><input class="form-control" placeholder="IMEI nummer" type="text" ng-model="user.imei" /></td>
+                    <td><input class="form-control" placeholder="IMSI nummer" type="text" ng-model="user.imsi" /></td>
+                </tr>
+
+                <tr>
+                    <!--<td class="text-right">Naam</td>-->
+                    <td><input class="form-control" placeholder="voornaam" type="text" ng-model="user.name"  /></td>
+                    <td><input class="form-control" placeholder="achternaam" type="text" ng-model="user.lastname" /></td>
+
+                </tr>
+
+
+
+                <tr>
+                    <!--<td class="text-right">Naam</td>-->
+                    <td><input class="form-control" placeholder="mac" type="text" ng-model="user.mac" /></td>
+                 <!--   <td><input class="form-control" placeholder="voeg nieuwe zones" type="text" ng-model="z.room" /></td>-->
+
+
+                </tr>
+
+                <tr>
+                    <!--<td class="text-right">Latitude</td>-->
+                    <td><input class="form-control" placeholder="latitude" type="number" ng-model="user.history.lat" /></td>
+                    <td><input class="form-control" placeholder="longitude" type="number" type="text" ng-model="user.history.lng" /></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <input class="btn" type="submit" value="Submit" ng-click="saveUser(); reloadRoute();"/>
+
+                        <input class="btn" type="submit" room="Clear" value="Clear" ng-click="reloadRoute()"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

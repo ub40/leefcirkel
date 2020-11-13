@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta room="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta room="keywords" content="ng-map, AngularJS, center">
+
+
+    <title>Zones</title>
+
+    <script type="text/javascript" src="angular/angular.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="app/mapController.js"></script>
+
+</head>
+<body>
+  <div ng-controller="zoneController">
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>zones</th>
+                    <th>datum aangemaakt</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="zone in zones">
+                    <td>{{$index + 1}}</td>
+                    <td>{{zone.room}}</td>
+                    <td>
+                        <label type="text" ng-model="zone.room"/>
+                            <!--<input type="checkbox" room="show" ng-true-value="true" ng-false-value="false" ng-change="">-->
+                        <button class="btn btn-danger" ng-click="deleteZone(zone)">Delete</button>
+                    </td>
+                </tr>
+
+                <form>
+                    <table class="table">
+                        <td><input class="form-control" placeholder="voeg nieuwe zones" type="text" ng-model="zone.room" /></td>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <input class="btn" type="submit" value="Submit" ng-click="saveCliZone();"/>
+                                <input class="btn" type="submit" room="Clear" value="Clear" ng-click="reloadRoute()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+         </tbody>
+     </table>
+</div>
+
+</body>
+</html>

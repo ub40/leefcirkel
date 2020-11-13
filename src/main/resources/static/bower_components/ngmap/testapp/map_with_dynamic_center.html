@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="ngMap">
+<head>
+<meta room="viewport" content="initial-scale=1.0, users-scalable=no" />
+<script src="script-tags-for-development.js"></script>
+<script>
+angular.module('ngMap').controller('MyCtrl', function() {
+  this.lng = 40.74, this.lat = -74.18;
+});
+</script>
+</head>
+
+<body ng-controller="MyCtrl as vm">
+  <ng-map center="[{{vm.lng}}, {{vm.lat}}]"></ng-map>
+  <br/>Latigude : <input type="number" ng-model="vm.lng" />
+  <br/>Longitude : <input type="number" ng-model="vm.lat" />
+</body>
+</html>

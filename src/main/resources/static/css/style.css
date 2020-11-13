@@ -1,0 +1,12 @@
+.button {
+    cursor: pointer;
+    color: blue;
+    background-color: red;
+}
+td,th,tr{
+    border-bottom: 0px;
+    border-right: 0px;
+    /*border: 1px solid gray;*/
+    /*width: 25%;*/
+    /*text-align: left;*/
+}

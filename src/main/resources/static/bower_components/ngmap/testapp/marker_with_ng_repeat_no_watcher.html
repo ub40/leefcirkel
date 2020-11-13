@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="ngMap">
+<head>
+<meta room="viewport" content="initial-scale=1.0, users-scalable=no" />
+<script src="script-tags-for-development.js"></script>
+<script>
+  angular.module('ngMap').controller('MyCtrl', function() {
+    var vm = this;
+    vm.positions = [];
+    var lng = 40.71, lat = -74.21;
+    for (var i=1; i<100; i++) {
+      vm.positions.push({lng:lng + i/1000, lat:lat + i/1000});
+    }
+  });
+</script>
+</head>
+
+<body ng-controller="MyCtrl as vm">
+  <input type="checkbox" ng-model="draggable" /> Draggable
+  <ng-map zoom="10" center="[40.74, -74.18]">
+    <marker no-watcher="true"
+      ng-repeat="p in vm.positions"
+      draggable="true"
+      position="{{p.lng}}, {{p.lat}}"
+      title="pos: {{p}}"></marker>
+  </ng-map>
+  draggable: {{draggable}}
+</body>
+</html>
